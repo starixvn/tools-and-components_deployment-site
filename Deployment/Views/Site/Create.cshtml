@@ -1,0 +1,85 @@
+﻿@using Deployment.Models
+@model Deployment.Models.Site
+<h2>
+    Create new site</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    
+    <fieldset>
+        <legend>Site Information</legend>
+        @Html.HiddenFor(model=>model.ProjectId)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Description, new { @cols = "120", @rows = "15" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Url)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Url)
+            @Html.ValidationMessageFor(model => model.Url)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PackageDirectory)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PackageDirectory)
+            @Html.ValidationMessageFor(model => model.PackageDirectory)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BackupDirectory)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BackupDirectory)
+            @Html.ValidationMessageFor(model => model.BackupDirectory)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PrimarySiteDirectory)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PrimarySiteDirectory)
+            @Html.ValidationMessageFor(model => model.PrimarySiteDirectory)
+        </div>
+        <div class="editor-label">
+            SecondarySiteDirectory(Seperated by ;)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SecondarySiteDirectory)
+            @Html.ValidationMessageFor(model => model.SecondarySiteDirectory)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WindowsUsername)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.WindowsUsername)
+            @Html.ValidationMessageFor(model => model.WindowsUsername)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WindowsPassword)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(model => model.WindowsPassword)
+            @Html.ValidationMessageFor(model => model.WindowsPassword)
+        </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

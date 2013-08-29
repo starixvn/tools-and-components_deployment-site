@@ -1,0 +1,70 @@
+﻿@model Deployment.Models.Site
+<h2>
+    Site Details</h2>
+<fieldset>
+    <legend>Site Information</legend>
+    <div class="display-field">
+        <a href="@Model.Url">@Model.Name</a>
+    </div>
+    <div class="title-separate">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.PackageDirectory)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.PackageDirectory)
+    </div>
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.BackupDirectory)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.BackupDirectory)
+    </div>
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.PrimarySiteDirectory)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.PrimarySiteDirectory)
+    </div>
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.SecondarySiteDirectory)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.SecondarySiteDirectory)
+    </div>
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.WindowsUsername)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.WindowsUsername)
+    </div>
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.LastRestoreUser)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.LastRestoreUser)
+    </div>
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.LastRestore)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.LastRestore)
+    </div>
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.LastRestoreDate)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.LastRestoreDate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Backup", "Backup", new { id = Model.Id }) |
+    @Html.ActionLink("Download Site", "DownloadSite", new { id = Model.Id }) |    
+    @Html.ActionLink("Download Config", "DownloadConfig", new { id = Model.Id }) |    
+    @Html.ActionLink("Package List", "Index", "Package", new { siteId = Model.Id }, new { })|
+    @Html.ActionLink("Backup Log", "Index", "Backup", new { siteId = Model.Id }, new { })|
+    @Html.ActionLink("Release Log", "Index", "ReleaseLog", new { siteId = Model.Id }, new { })|
+    @Html.ActionLink("Back to List", "Index")
+</p>

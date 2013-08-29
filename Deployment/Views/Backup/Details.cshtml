@@ -1,0 +1,38 @@
+﻿@using Deployment.Models
+@model Deployment.Models.Backup
+@{
+    var site = (Site)ViewBag.Site;
+}
+<h2>
+    @site.Name: Backup details</h2>
+<fieldset>
+    <legend>Backup</legend>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Creator)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Creator)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.CreatedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedDate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to List", "Index", new { siteId = Model.SiteId })
+    @Html.ActionLink("Restore", "Restore", new { id = Model.Id })
+</p>

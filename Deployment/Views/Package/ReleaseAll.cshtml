@@ -1,0 +1,107 @@
+﻿@using Deployment.Models
+@model Deployment.Models.Package
+@{
+    ViewBag.Title = "Release All";
+    var siteList = (IList<Site>)ViewBag.SiteList;
+}
+<h2>
+    Release to multiple sites</h2>
+<h3>
+    Are you sure you want to release this package?</h3>
+<fieldset>
+    <legend>Package</legend>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Creator)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Creator)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.CreatedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedDate)
+    </div>
+</fieldset>
+@using (Html.BeginForm("ReleaseAll", "Package", FormMethod.Get, new { }))
+{  <fieldset>
+    <legend>Site Information</legend>
+    <div class="editor-label">
+        Site name
+    </div>
+    <div class="editor-field">
+        <input type="text" name="SiteName" value="@ViewBag.SiteName" />
+        <input type="hidden" name="id" value="@Model.SiteId" />
+    </div>
+    <p>
+        <input type="submit" value="Search" />
+    </p>
+    </fieldset>
+}
+<table style="width: 100%">
+    <tr>
+        <th>
+            <input type="checkbox" data-site-id="0" class="site-id checkbox-all" />
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Url
+        </th>
+    </tr>
+    @foreach (var item in siteList)
+    {
+        <tr>
+            <td>
+                <input name="siteId" type="checkbox" data-site-id="@item.Id" data-site-name="@item.Name" class="site-id"/>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td>
+            <input type="checkbox" data-site-id="0" class="site-id checkbox-all" />
+        </td>
+        <td colspan="3">
+            @Html.ActionLink("Cancel", "Details", new { id = Model.Id }) |
+            <input type="button" value="Release" id="release" data-package-name="@Model.Name" data-package-id="@Model.Id"/>
+        </td>
+    </tr>
+</table>
+<div id="dialog" title="Progress bar" style="display: none;">
+    <p id="dialog-text">
+    </p>
+</div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/releaseall")
+}
+
+

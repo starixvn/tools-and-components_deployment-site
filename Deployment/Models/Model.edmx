@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Backup" EntityType="Model.Store.Backup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Package" EntityType="Model.Store.Package" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Project" EntityType="Model.Store.Project" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Release" EntityType="Model.Store.Release" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Site" EntityType="Model.Store.Site" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="Backup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="Creator" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="Creator" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
+          <Property Name="ReleaseUser" Type="nvarchar" Nullable="false" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="Release">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="Creator" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="ReleaseDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="Url" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="PackageDirectory" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="BackupDirectory" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="PrimarySiteDirectory" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="WindowsUsername" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="WindowsPassword" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="SecondarySiteDirectory" Type="nvarchar" Nullable="false" MaxLength="2000" />
+          <Property Name="LastRestore" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="LastRestoreDate" Type="datetime" Nullable="false" />
+          <Property Name="LastRestoreUser" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="ProjectId" Type="int" Nullable="false" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Backups" EntityType="Model.Backup" />
+          <EntitySet Name="Packages" EntityType="Model.Package" />
+          <EntitySet Name="Projects" EntityType="Model.Project" />
+          <EntitySet Name="Releases" EntityType="Model.Release" />
+          <EntitySet Name="Sites" EntityType="Model.Site" />
+        </EntityContainer>
+        <EntityType Name="Backup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Creator" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Creator" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="DateTime" Name="ReleaseDate" Nullable="false" />
+          <Property Type="String" Name="ReleaseUser" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Release">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SiteId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Creator" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="ReleaseDate" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Url" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PackageDirectory" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BackupDirectory" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PrimarySiteDirectory" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="WindowsUsername" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="WindowsPassword" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SecondarySiteDirectory" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastRestore" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastRestoreDate" Nullable="false" />
+          <Property Type="String" Name="LastRestoreUser" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ProjectId" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Backups">
+            <EntityTypeMapping TypeName="Model.Backup">
+              <MappingFragment StoreEntitySet="Backup">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Packages">
+            <EntityTypeMapping TypeName="Model.Package">
+              <MappingFragment StoreEntitySet="Package">
+                <ScalarProperty Name="ReleaseUser" ColumnName="ReleaseUser" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="Model.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Releases">
+            <EntityTypeMapping TypeName="Model.Release">
+              <MappingFragment StoreEntitySet="Release">
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sites">
+            <EntityTypeMapping TypeName="Model.Site">
+              <MappingFragment StoreEntitySet="Site">
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="LastRestoreUser" ColumnName="LastRestoreUser" />
+                <ScalarProperty Name="LastRestoreDate" ColumnName="LastRestoreDate" />
+                <ScalarProperty Name="LastRestore" ColumnName="LastRestore" />
+                <ScalarProperty Name="SecondarySiteDirectory" ColumnName="SecondarySiteDirectory" />
+                <ScalarProperty Name="WindowsPassword" ColumnName="WindowsPassword" />
+                <ScalarProperty Name="WindowsUsername" ColumnName="WindowsUsername" />
+                <ScalarProperty Name="PrimarySiteDirectory" ColumnName="PrimarySiteDirectory" />
+                <ScalarProperty Name="BackupDirectory" ColumnName="BackupDirectory" />
+                <ScalarProperty Name="PackageDirectory" ColumnName="PackageDirectory" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model">
+        <EntityTypeShape EntityType="Model.Backup" Width="1.5" PointX="0.75" PointY="0.75" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="Model.Package" Width="1.5" PointX="2.75" PointY="0.75" Height="2.5571907552083317" />
+        <EntityTypeShape EntityType="Model.Project" Width="1.5" PointX="4.75" PointY="0.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="Model.Release" Width="1.5" PointX="0.75" PointY="4.75" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="Model.Site" Width="1.5" PointX="2.75" PointY="4.75" Height="3.7109993489583353" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

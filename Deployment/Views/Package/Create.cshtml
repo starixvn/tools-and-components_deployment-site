@@ -1,0 +1,42 @@
+﻿@using Deployment.Models
+@model Deployment.Models.Package
+@{var site = (Site)ViewBag.Site;}
+<h2>
+    Create a package for site: @site.Name</h2>
+@using (Html.BeginForm("Create", "Package", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.SiteId)
+    <fieldset>
+        <legend>Package Information</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Description, new { @cols = "120", @rows = "15" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+        <div class="editor-label">
+            Package Zip File
+        </div>
+        <div class="editor-field">
+            <input type="file" name="UploadFile" id="UploadFile" />
+        </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index", new { siteId = Model.SiteId })
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,53 @@
+﻿@using Deployment.Models
+@model Package
+@{
+    ViewBag.Title = "Details";
+    var site = (Site)ViewBag.Site;
+}
+<h2>
+    Package details</h2>
+<fieldset>
+    <legend>Package Information</legend>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="display-label">
+        Site
+    </div>
+    <div class="display-field">
+        @site.Name;
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Creator)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Creator)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.CreatedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedDate)
+    </div>
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.ReleaseDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ReleaseDate)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index", new { siteId = Model.SiteId })|
+    @Html.ActionLink("Release", "Release", new { id = Model.Id })
+    @Html.ActionLink("Release all", "ReleaseAll", new { id = Model.Id })
+</p>
