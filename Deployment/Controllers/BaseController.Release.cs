@@ -22,17 +22,22 @@ namespace Deployment.Controllers
             var packageDirectory = site.PackageDirectory;
             var domain = IOUtil.GetDomainName(packageDirectory);
 
-            if (domain.Length == 0)
+            var usingUnc = domain.Length > 0;
+
+            Impersonate impersonate = null;
+            IntPtr tokenHandle = IntPtr.Zero;
+            WindowsImpersonationContext impersonatedUser = null;
+
+            if (usingUnc)
             {
-                throw new ArgumentException("Site package directory is invalid");
+                // Login to domain
+                impersonate = new Impersonate();
+                tokenHandle = impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
+
+                var newId = new WindowsIdentity(tokenHandle);
+                impersonatedUser = newId.Impersonate();
             }
 
-            // Login to domain
-            var impersonate = new Impersonate();
-            var tokenHandle = impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
-
-            var newId = new WindowsIdentity(tokenHandle);
-            var impersonatedUser = newId.Impersonate();
             try
             {
                 // Save
@@ -43,9 +48,12 @@ namespace Deployment.Controllers
             }
             finally
             {
-                // Logoff 
-                impersonatedUser.Undo();
-                impersonate.EndUserSession(tokenHandle);
+                if (usingUnc)
+                {
+                    // Logoff 
+                    impersonatedUser.Undo();
+                    impersonate.EndUserSession(tokenHandle);
+                }
             }
         }
 
@@ -99,17 +107,21 @@ namespace Deployment.Controllers
         {
             var domain = IOUtil.GetDomainName(siteDirectory);
 
-            if (domain.Length == 0)
+            var usingUnc = domain.Length > 0;
+
+            Impersonate impersonate = null;
+            IntPtr tokenHandle = IntPtr.Zero;
+            WindowsImpersonationContext impersonatedUser = null;
+
+            if (usingUnc)
             {
-                throw new ArgumentException("Site package directory is invalid");
+                // Login to domain
+                impersonate = new Impersonate();
+                tokenHandle = impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
+
+                var newId = new WindowsIdentity(tokenHandle);
+                impersonatedUser = newId.Impersonate();
             }
-
-            // Login to domain
-            var impersonate = new Impersonate();
-            var tokenHandle = impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
-
-            var newId = new WindowsIdentity(tokenHandle);
-            var impersonatedUser = newId.Impersonate();
             try
             {
                 // Release
@@ -117,9 +129,12 @@ namespace Deployment.Controllers
             }
             finally
             {
-                // Logoff 
-                impersonatedUser.Undo();
-                impersonate.EndUserSession(tokenHandle);
+                if (usingUnc)
+                {
+                    // Logoff 
+                    impersonatedUser.Undo();
+                    impersonate.EndUserSession(tokenHandle);
+                }
             }
         }
     }

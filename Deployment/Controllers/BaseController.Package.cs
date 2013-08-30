@@ -19,18 +19,21 @@ namespace Deployment.Controllers
                 ? string.Format("{0}-Manual-Backup-Date-{1:yyyyMMdd}-Time-{1:HH-mm}", site.Name, DateTime.Now)
                 : backupName;
             var domain = IOUtil.GetDomainName(site.PrimarySiteDirectory);
+            var usingUnc = domain.Length > 0;
 
-            if (domain.Length == 0)
+            Impersonate impersonate = null;
+            IntPtr tokenHandle = IntPtr.Zero;
+            WindowsImpersonationContext impersonatedUser = null;
+
+            if (usingUnc)
             {
-                throw new ArgumentException("Site package directory is invalid");
+                // Login to domain
+                impersonate = new Impersonate();
+                tokenHandle = impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
+
+                var newId = new WindowsIdentity(tokenHandle);
+                impersonatedUser = newId.Impersonate();
             }
-
-            // Login to domain
-            var impersonate = new Impersonate();
-            var tokenHandle = impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
-
-            var newId = new WindowsIdentity(tokenHandle);
-            var impersonatedUser = newId.Impersonate();
 
             // Backup
             try
@@ -60,9 +63,12 @@ namespace Deployment.Controllers
             }
             finally
             {
-                // Logoff 
-                impersonatedUser.Undo();
-                impersonate.EndUserSession(tokenHandle);
+                if (usingUnc)
+                {
+                    // Logoff 
+                    impersonatedUser.Undo();
+                    impersonate.EndUserSession(tokenHandle);
+                }
             }
         }
     }
