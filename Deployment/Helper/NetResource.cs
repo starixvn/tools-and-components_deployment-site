@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Deployment.Helper
 {
-    struct NetResource
+   public struct NetResource
     {
         public int dwScope;
         public int dwType;

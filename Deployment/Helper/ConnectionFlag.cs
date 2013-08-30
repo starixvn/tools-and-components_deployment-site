@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Deployment.Helper
 {
-    class ConnectionFlag
+    public class ConnectionFlag
     {
         public const int CONNECT_UPDATE_PROFILE = 0x00000001;
         public const int CONNECT_UPDATE_RECENT = 0x00000002;

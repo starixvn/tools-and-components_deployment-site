@@ -137,29 +137,43 @@ namespace Deployment.Controllers
             return View(site);
         }
 
-        //
-        // GET: /Home/Delete/5
+        // GET: /Home/Clean/5
 
-        public ActionResult Delete(int id = 0)
+        public ActionResult Clean(int id = 0)
         {
-            Site site = db.Sites.SingleOrDefault(s => s.Id == id);
+            var site = db.Sites.SingleOrDefault(s => s.Id == id);
             if (site == null)
             {
                 return HttpNotFound();
             }
+
             return View(site);
         }
 
         //
-        // POST: /Home/Delete/5
+        // POST: /Home/Clean/5
 
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        [HttpPost, ActionName("Clean")]
+        public ActionResult CleanConfirmed(int id, string fileList)
         {
             Site site = db.Sites.SingleOrDefault(s => s.Id == id);
-            db.Sites.DeleteObject(site);
-            db.SaveChanges();
-            return RedirectToAction("Index", new { projectId = site.ProjectId, siteName = "" });
+
+            var fileListArray = fileList.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                                      .Select(s => s.Trim()).ToArray();
+
+            CleanSiteFiles(site, fileListArray);
+
+            return RedirectToAction("Details", new { id = site.Id });
+        }
+
+
+        public ActionResult CleanWhole(int id)
+        {
+            Site site = db.Sites.SingleOrDefault(s => s.Id == id);
+
+            CleanWholeSite(site);
+
+            return RedirectToAction("Details", new { id = site.Id });
         }
 
         //
@@ -206,36 +220,7 @@ namespace Deployment.Controllers
                 return HttpNotFound();
             }
 
-            var domain = IOUtil.GetDomainName(site.PrimarySiteDirectory);
-            // Login to domain
-            var Impersonate = new Impersonate();
-            var tokenHandle = Impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
-            var newId = new WindowsIdentity(tokenHandle);
-            var impersonatedUser = newId.Impersonate();
-
-            // Action
-            var primaryDirectory = site.PrimarySiteDirectory;
-            var files = Directory.GetFiles(primaryDirectory, "*.config");
-            var tempFile = Path.GetTempFileName();
-            Zip.ZipFiles(primaryDirectory, files, tempFile);
-
-            // Logoff 
-            impersonatedUser.Undo();
-            Impersonate.EndUserSession(tokenHandle);
-
-            // Response
-            var memoryStream = new MemoryStream();
-            using (var file = new FileStream(tempFile, FileMode.Open, FileAccess.Read))
-            {
-                var bytes = new byte[file.Length];
-                file.Read(bytes, 0, (int)file.Length);
-                memoryStream.Write(bytes, 0, (int)file.Length);
-                file.Close();
-            }
-
-            System.IO.File.Delete(tempFile);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            return File(memoryStream, "application/zip", "config.zip");
+            return DownloadSiteConfigZip(site);
         }
 
         public ActionResult DownloadSite(int id = 0)
@@ -246,36 +231,7 @@ namespace Deployment.Controllers
                 return HttpNotFound();
             }
 
-            var domain = IOUtil.GetDomainName(site.PrimarySiteDirectory);
-
-            // Login to domain
-            var Impersonate = new Impersonate();
-            var tokenHandle = Impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
-            var newId = new WindowsIdentity(tokenHandle);
-            var impersonatedUser = newId.Impersonate();
-
-            // Action
-            var primaryDirectory = site.PrimarySiteDirectory;
-            var tempFile = Path.GetTempFileName();
-            Zip.ZipFiles(primaryDirectory, tempFile);
-
-            // Logoff 
-            impersonatedUser.Undo();
-            Impersonate.EndUserSession(tokenHandle);
-
-            // Response
-            var memoryStream = new MemoryStream();
-            using (var file = new FileStream(tempFile, FileMode.Open, FileAccess.Read))
-            {
-                var bytes = new byte[file.Length];
-                file.Read(bytes, 0, (int)file.Length);
-                memoryStream.Write(bytes, 0, (int)file.Length);
-                file.Close();
-            }
-
-            System.IO.File.Delete(tempFile);
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            return File(memoryStream, "application/zip", "Site.zip");
+            return DownloadSiteZip(site);
         }
 
         protected override void Dispose(bool disposing)

@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace Deployment.Helper
 {
-    class Zip
+    public class Zip
     {
         public static List<string> IgnoreFilePatternList;
 
@@ -79,7 +79,7 @@ namespace Deployment.Helper
         {
             if (File.Exists(outputPathAndFile)) IOUtil.DeleteFile(outputPathAndFile);
 
-      
+
             int TrimLength = (Directory.GetParent(inputFolderPath)).ToString().Length;
             // find number of chars to remove     // from orginal file path
             TrimLength += 1; //remove '\'

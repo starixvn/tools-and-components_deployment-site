@@ -8,7 +8,7 @@ using System.Configuration;
 
 namespace Deployment.Helper
 {
-    class IOUtil
+    public class IOUtil
     {
         public static List<string> IgnoreFilePatternList;
 

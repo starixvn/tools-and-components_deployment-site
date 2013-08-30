@@ -1,0 +1,35 @@
+﻿@using Deployment.Models
+@model Deployment.Models.Site
+<h2>
+    Clean your site</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    
+    <fieldset>
+        <legend>Site Information</legend>
+        @Html.HiddenFor(model => model.Id)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Model.Name
+        </div>
+        <div class="editor-label">
+            Delete following file(separated by line break)
+        </div>
+        <div class="editor-field">
+            @Html.TextArea("FileList", new { @cols = "120", @rows = "15" })
+        </div>
+        <p>
+            <input type="submit" value="Delete" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Clean whole directory", "CleanWhole")|
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
