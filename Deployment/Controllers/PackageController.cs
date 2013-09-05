@@ -192,7 +192,7 @@ namespace Deployment.Controllers
         // POST: /Package/Delete/5
 
         [HttpPost, ActionName("Release")]
-        public ActionResult ReleaseConfirmed(int id, int siteId = 0)
+        public ActionResult ReleaseConfirmed(int id, int siteId = 0, bool isBackup = false)
         {
             var package = db.Packages.SingleOrDefault(p => p.Id == id);
             siteId = siteId == 0 ? package.SiteId : siteId;
@@ -203,7 +203,7 @@ namespace Deployment.Controllers
             }
 
             // Release
-            ReleasePackage(package, site);
+            ReleasePackage(package, site, isBackup);
 
             // Save release information date
             package.ReleaseUser = User.Identity.Name;

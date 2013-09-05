@@ -27,7 +27,7 @@
                 type: "POST",
                 url: Global.resolveClientUrl("Package/Release/" + packageId),
                 async: false,
-                data: { siteId: siteId },
+                data: { siteId: siteId, isBackup: true },
                 success: function (ajaxResult) {
                 },
                 complete: function () {

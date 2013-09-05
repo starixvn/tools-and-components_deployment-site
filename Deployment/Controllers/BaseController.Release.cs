@@ -58,7 +58,7 @@ namespace Deployment.Controllers
         }
 
         [NonAction]
-        protected void ReleasePackage(Package package, Site site)
+        protected void ReleasePackage(Package package, Site site, bool isBackup = false)
         {
             // Copy package to temp files
             var originalSite = db.Sites.SingleOrDefault(s => s.Id == package.SiteId);
@@ -71,8 +71,10 @@ namespace Deployment.Controllers
             var tempFile = CopyUncFileToTempFile(packagePath, site);
 
             // Backup
-            BackupPrimarySite(site, package.Id, package.Name);
-
+            if (isBackup)
+            {
+                BackupPrimarySite(site, package.Id, package.Name);
+            }
             // Release all sites
             ReleaseToAllSiteDirectory(tempFile, package, site);
 

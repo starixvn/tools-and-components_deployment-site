@@ -1,5 +1,5 @@
 ﻿@using Deployment.Models
-@model Deployment.Models.Package
+@model Package
 @{
     ViewBag.Title = "Delete";
     var site = (Site)ViewBag.Site;
@@ -8,41 +8,48 @@
     @site.Name release</h2>
 <h3>
     Are you sure you want to release this package?</h3>
-<fieldset>
-    <legend>Package</legend>
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-    <div class="display-label">
-        Site
-    </div>
-    <div class="display-field">
-        @site.Name;
-    </div>
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
-    </div>
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.Creator)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Creator)
-    </div>
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.CreatedDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.CreatedDate)
-    </div>
-</fieldset>
 @using (Html.BeginForm())
 {
+    <fieldset>
+        <legend>Package</legend>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Name)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Name)
+        </div>
+        <div class="display-label">
+            Site
+        </div>
+        <div class="display-field">
+            @site.Name;
+        </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Description)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Description)
+        </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Creator)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Creator)
+        </div>
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CreatedDate)
+        </div>
+        <div class="display-label">
+            Backup
+        </div>
+        <div class="display-field">
+            <input type="checkbox" checked="checked" name="IsBackup" value="true"/>
+        </div>
+    </fieldset>
+
     <p>
         <input type="submit" value="Release" />
         |
