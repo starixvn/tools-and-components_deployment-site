@@ -21,7 +21,7 @@
             $("#dialog-text").text(message);
             $.ajax({
                 type: "POST",
-                url: Global.resolveClientUrl("Home/Backup"),
+                url: Global.resolveClientUrl("Site/Backup"),
                 async: false,
                 data: { id: siteId },
                 success: function (ajaxResult) {
