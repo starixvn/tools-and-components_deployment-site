@@ -33,9 +33,36 @@ namespace Deployment.Controllers
         [NonAction]
         protected void RestoreSite(string backupFile, string siteDirectory, Site site)
         {
-            IOUtil.DeleteDirectory(siteDirectory, true);
+            Impersonate impersonate = null;
+            IntPtr tokenHandle = IntPtr.Zero;
+            WindowsImpersonationContext impersonatedUser = null;
+            var domain = IOUtil.GetDomainName(siteDirectory);
+            var usingUnc = domain.Length > 0;
 
-            Zip.UnZipFiles(backupFile, siteDirectory, true);
+            if (usingUnc)
+            {
+                // Login to domain
+                impersonate = new Impersonate();
+                tokenHandle = impersonate.StartUserSession(site.WindowsUsername, domain, site.WindowsPassword);
+
+                var newId = new WindowsIdentity(tokenHandle);
+                impersonatedUser = newId.Impersonate();
+            }
+
+            try
+            {
+                IOUtil.DeleteDirectory(siteDirectory, true);
+                Zip.UnZipFiles(backupFile, siteDirectory, true);
+            }
+            finally
+            {
+                if (usingUnc)
+                {
+                    // Logoff 
+                    impersonatedUser.Undo();
+                    impersonate.EndUserSession(tokenHandle);
+                }
+            }
         }
     }
 }

@@ -101,7 +101,7 @@ namespace Deployment.Controllers
 
             db.SaveChanges();
 
-            return RedirectToAction("Details","Home", new { id = site.Id });
+            return RedirectToAction("Details","Site", new { id = site.Id });
         }
 
         protected override void Dispose(bool disposing)
