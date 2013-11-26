@@ -1,9 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Deployment.Models;
-using System.IO;
+using PagedList;
 
 namespace Deployment.Controllers
 {
@@ -12,12 +13,9 @@ namespace Deployment.Controllers
         //
         // GET: /Package/
 
-        public ActionResult Index(int siteId = 0)
+        public ActionResult Index(int siteId = 0, int page = 1)
         {
-
-            var packageList = db.Packages.Where(p => p.SiteId == siteId)
-                                         .OrderByDescending(p => p.CreatedDate)
-                                         .ToList();
+            const int PageSize = 10;
 
             var site = db.Sites.SingleOrDefault(p => p.Id == siteId);
 
@@ -26,8 +24,14 @@ namespace Deployment.Controllers
                 return HttpNotFound();
             }
 
+            page = page < 0 ? 1 : page;
+            var packageList = db.Packages.Where(p => p.SiteId == siteId)
+                                         .OrderByDescending(p => p.CreatedDate)
+                                         .ToList();
+
+            var onePageOfPackages = packageList.ToPagedList(page, PageSize);
             ViewBag.Site = site;
-            return View(packageList);
+            return View(onePageOfPackages);
         }
 
         //

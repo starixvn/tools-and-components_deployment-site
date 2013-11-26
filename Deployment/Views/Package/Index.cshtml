@@ -1,4 +1,6 @@
 ﻿@using Deployment.Models
+@using PagedList.Mvc
+@using PagedList
 @model IEnumerable<Deployment.Models.Package>
 @{var site = (Site)ViewBag.Site;}
 <h2>
@@ -54,3 +56,4 @@
         </tr>
     }
 </table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { siteId = site.Id, page }))

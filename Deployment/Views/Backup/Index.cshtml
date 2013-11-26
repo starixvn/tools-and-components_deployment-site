@@ -1,4 +1,6 @@
 ﻿@using Deployment.Models
+@using PagedList.Mvc
+@using PagedList
 @model IEnumerable<Deployment.Models.Backup>
 @{
     ViewBag.Title = "Index";
@@ -38,3 +40,5 @@
         </tr>
     }
 </table>
+
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))

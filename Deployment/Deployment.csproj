@@ -39,6 +39,12 @@
       <HintPath>..\packages\Zip\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -152,7 +158,6 @@
     <Compile Include="Controllers\ReleaseLogController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
-    <Compile Include="Extention\Something.cs" />
     <Compile Include="Extention\HtmlExtension.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -189,6 +194,7 @@
     <Content Include="Content\images\transparent.gif" />
     <Content Include="Content\menuBack.gif" />
     <Content Include="Content\menuHoverBack.gif" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\TableHeaderBackground.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />

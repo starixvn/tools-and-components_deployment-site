@@ -1,32 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Deployment.Models;
+using PagedList;
 
 namespace Deployment.Controllers
 {
     public partial class BackupController : BaseController
     {
+        const int PageSize = 10;
         //
         // GET: /Backup/
 
-        public ActionResult Index(int siteId = 0)
+        public ActionResult Index(int siteId = 0, int page = 1)
         {
-            var backupList = db.Backups.Where(p => p.SiteId == siteId)
-                                .OrderByDescending(p=>p.CreatedDate)
-                                .ToList();
             var site = db.Sites.SingleOrDefault(b => b.Id == siteId);
             if (site == null)
             {
                 return HttpNotFound();
             }
 
+            page = page < 0 ? 1 : page;
+            var backupList = db.Backups.Where(p => p.SiteId == siteId)
+                                .OrderByDescending(p => p.CreatedDate)
+                                .ToList();
+
+            var onePageOfBackups = backupList.ToPagedList(page, PageSize);
+
             ViewBag.Site = site;
-            return View(backupList);
+            return View(onePageOfBackups);
         }
 
         //
@@ -101,7 +102,7 @@ namespace Deployment.Controllers
 
             db.SaveChanges();
 
-            return RedirectToAction("Details","Site", new { id = site.Id });
+            return RedirectToAction("Details", "Site", new { id = site.Id });
         }
 
         protected override void Dispose(bool disposing)
