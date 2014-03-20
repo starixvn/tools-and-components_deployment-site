@@ -252,13 +252,10 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\jquery-1.11.0.min.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\releaseall.js" />
-    <Content Include="Scripts\jquery-1.7.1-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.7.1.js" />
-    <Content Include="Scripts\jquery-1.7.1.min.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.js" />
-    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
     <Content Include="Scripts\jquery.ext.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -396,12 +393,6 @@
     <Content Include="Scripts\Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\ReleaseLog\Details.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\ReleaseLog\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Project\Index.cshtml" />
