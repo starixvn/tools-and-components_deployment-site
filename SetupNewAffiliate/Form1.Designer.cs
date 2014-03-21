@@ -93,8 +93,7 @@
             // Msg
             // 
             this.Msg.AutoSize = true;
-            this.Msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)(((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic) 
-                | System.Drawing.FontStyle.Strikeout))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Msg.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Msg.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.Msg.Location = new System.Drawing.Point(221, 57);
             this.Msg.Name = "Msg";
@@ -143,7 +142,7 @@
             this.Save.Location = new System.Drawing.Point(19, 245);
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(133, 23);
-            this.Save.TabIndex = 4;
+            this.Save.TabIndex = 14;
             this.Save.Text = "Create Folder Structure";
             this.Save.UseVisualStyleBackColor = true;
             this.Save.Click += new System.EventHandler(this.Save_Click);
