@@ -252,8 +252,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.11.0.min.js" />
-    <Content Include="Scripts\jquery-ui-1.10.4.min.js" />
+    <Content Include="Scripts\jquery-1.11.0.js" />
+    <Content Include="Scripts\jquery-ui-1.10.4.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\releaseall.js" />
     <Content Include="Scripts\jquery.ext.js" />

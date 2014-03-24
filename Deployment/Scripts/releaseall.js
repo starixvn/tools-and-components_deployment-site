@@ -11,7 +11,6 @@
         var success = true;
 
         $("#dialog").dialog({ modal: true });
-
         siteList.each(function (i, e) {
 
             if (!success) {
@@ -40,8 +39,6 @@
             message = "Finish release package " + packageName + " for " + (i + 1) + "/" + siteCount + " sites. Current site is: " + siteName;
             $("#dialog-text").text(message);
         });
-
-        $("#dialog").dialog("close");
     };
     context.initEvent = function () {
         $("#release").click(function () {
