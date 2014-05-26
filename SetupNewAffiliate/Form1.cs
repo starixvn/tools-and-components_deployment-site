@@ -26,8 +26,10 @@ namespace SetupNewAffiliate
                 SetupWebFolder();  
                 // Setup for Service.
                 SetupService(AffiliateName.Text);
+                //Add Connection String for API Web Service.
+                SetupWebService(AffiliateName.Text);
 
-                Msg.Text = "Create Successfully";
+                Msg.Text = "Create System " + AffiliateName.Text + " Successfully";
             }
             catch (Exception ex) {
                 Msg.Text = ex.Message;
@@ -51,10 +53,11 @@ namespace SetupNewAffiliate
         {
             var pathPatternSP = Settings.Default.AffServer2 + "\\E$\\2.Service\\0.Pattern\\SPName.xml";
             var spContent = File.ReadAllText(pathPatternSP);
+
             spContent = spContent.Replace("{affiliatename}", affiliateName.ToUpper());
 
-            var pathWinForm = Settings.Default.AffServer2 + string.Format("\\E$\\2.Service\\6.Fanex.Affiliate.Services.WinForm\\Fanex.Data\\{0}.xml", affiliateName) ;
-            var pathService = Settings.Default.AffServer2 + string.Format("\\E$\\2.Service\\7.Fanex.Affiliate.Services.WinService\\Fanex.Data\\{0}.xml", affiliateName) ;
+            var pathWinForm = Settings.Default.AffServer2 + string.Format("\\E$\\2.Service\\6.Fanex.Affiliate.Services.WinForm\\Fanex.Data\\{0}.xml", affiliateName.ToUpper()) ;
+            var pathService = Settings.Default.AffServer2 + string.Format("\\E$\\2.Service\\7.Fanex.Affiliate.Services.WinService\\Fanex.Data\\{0}.xml", affiliateName.ToUpper());
 
             //Create spname.xml file
             File.WriteAllText(pathWinForm, spContent);
@@ -64,12 +67,17 @@ namespace SetupNewAffiliate
         void AddConnectionString(string affiliateName) {
             var pathPatternConnection = Settings.Default.AffServer2 + "\\E$\\2.Service\\0.Pattern\\Connectionstring.config";
             var newConnectionContent = File.ReadAllText(pathPatternConnection);
+
+
             newConnectionContent = newConnectionContent.Replace("{affiliatename}", affiliateName.ToUpper());
 
             var pathConnectionService = Settings.Default.AffServer2 + "\\E$\\2.Service\\7.Fanex.Affiliate.Services.WinService\\ConnectionString.config";
             var pathConnectionWinform = Settings.Default.AffServer2 + "\\E$\\2.Service\\6.Fanex.Affiliate.Services.WinForm\\ConnectionString.config";
 
             var connectionContent = File.ReadAllText(pathConnectionService);
+            if (connectionContent.IndexOf(affiliateName, StringComparison.OrdinalIgnoreCase) >= 0)
+                return;
+
             connectionContent = connectionContent.Replace("</connectionStrings>", newConnectionContent + "\r\n" + "</connectionStrings>");
 
             File.WriteAllText(pathConnectionService, connectionContent);
@@ -79,23 +87,32 @@ namespace SetupNewAffiliate
         void AddTriggerInQuartJob(string affiliateName){
             var pathPatternQuartJob = Settings.Default.AffServer2 + "\\E$\\2.Service\\0.Pattern\\quartjob.xml";
             var newQuartJobContent = File.ReadAllText(pathPatternQuartJob);
-            newQuartJobContent = newQuartJobContent.Replace("{affiliatename}", affiliateName.ToUpper());
+            newQuartJobContent = newQuartJobContent.Replace("{affiliatename}", affiliateName.ToLower());
 
             var pathQuartJobService = Settings.Default.AffServer2 + "\\E$\\2.Service\\7.Fanex.Affiliate.Services.WinService\\QuartzJobs.xml";
             var QuartJobContent = File.ReadAllText(pathQuartJobService);
-            QuartJobContent = QuartJobContent.Replace("</job-scheduling-data>", newQuartJobContent + "\r\n" + "</job-scheduling-data>");
+            
+            if (QuartJobContent.IndexOf(affiliateName, StringComparison.OrdinalIgnoreCase) >= 0)
+                return;
+
+            QuartJobContent = QuartJobContent.Replace("</schedule>", newQuartJobContent + "\r\n" + "</schedule>");
             File.WriteAllText(pathQuartJobService, QuartJobContent);
         }
 
         void AddLicensee(string affiliateName){
             var pathLicensee = Settings.Default.AffServer2 + "\\E$\\2.Service\\0.Pattern\\Licensees.xml";
             var newLicenseeContent = File.ReadAllText(pathLicensee);
-            newLicenseeContent = newLicenseeContent.Replace("{affiliatename}", affiliateName.ToUpper());
+
+            newLicenseeContent = newLicenseeContent.Replace("{affiliatename}", affiliateName.ToLower());
 
             var pathLicenseeService = Settings.Default.AffServer2 + "\\E$\\2.Service\\7.Fanex.Affiliate.Services.WinService\\Licensees.xml";
             var pathLicenseeWinform = Settings.Default.AffServer2 + "\\E$\\2.Service\\6.Fanex.Affiliate.Services.WinForm\\Licensees.xml";
 
             var LicenseeContent = File.ReadAllText(pathLicenseeService);
+
+            if (LicenseeContent.IndexOf(affiliateName, StringComparison.OrdinalIgnoreCase) >= 0)
+                return;
+
             LicenseeContent = LicenseeContent.Replace("</Licensees>", newLicenseeContent + "\r\n" + "</Licensees>");
 
             File.WriteAllText(pathLicenseeService, LicenseeContent);
@@ -127,6 +144,10 @@ namespace SetupNewAffiliate
             var targetDir = Path.GetFullPath(Settings.Default.AffServer1 + "\\E$\\7.Script\\" + AffiliateId.Text + "." + AffiliateName.Text);
             CopyAllFiles(sourceDir, targetDir);
             UpdateIISFilesContent(targetDir);
+
+            var targetDir2 = Path.GetFullPath(Settings.Default.AffServer2 + "\\E$\\7.Script\\" + AffiliateId.Text + "." + AffiliateName.Text);
+            CopyAllFiles(sourceDir, targetDir2);
+            UpdateIISFilesContent(targetDir2);
         }
 
         private void CreateFolderStructure(string path)
@@ -169,7 +190,7 @@ namespace SetupNewAffiliate
             Directory.CreateDirectory(targetDir);
 
             foreach (var file in Directory.GetFiles(sourceDir))
-                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)));
+                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)), true);
 
             //foreach (var directory in Directory.GetDirectories(sourceDir))
             //    CopyAllFiles(directory, Path.Combine(targetDir, Path.GetFileName(directory)));
@@ -198,10 +219,27 @@ namespace SetupNewAffiliate
         }
         #endregion
 
-        private void Form1_Load(object sender, EventArgs e)
+        #region
+        void SetupWebService(string affiliateName)
         {
+            var pathPatternConnection = Settings.Default.AffServer1 + "\\E$\\0.Patern\\API_Config.txt";
+            var newConnectionContent = File.ReadAllText(pathPatternConnection);
 
+
+            newConnectionContent = newConnectionContent.Replace("{affiliatename}", affiliateName.ToUpper());
+
+            var pathAPIService = Settings.Default.AffServer1 + "\\E$\\1.Web\\15.WebServiceAPI\\Web.ConnectionString.config";
+
+            var connectionContent = File.ReadAllText(pathAPIService);
+
+            if (connectionContent.IndexOf(affiliateName, StringComparison.OrdinalIgnoreCase) >= 0)
+                return;
+
+            connectionContent = connectionContent.Replace("</connectionStrings>", newConnectionContent + "\r\n" + "</connectionStrings>");
+
+            File.WriteAllText(pathAPIService, connectionContent);
         }
+        #endregion
 
     }
 }
